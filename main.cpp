@@ -10,10 +10,7 @@ using namespace std;
 
 int shortestPath(int s, int d);
 
-/**
- * A class that represents navigation functionality for travel.
- */
-
+/* A class that represents navigation functionality for travel. */
 class navigation
 {
 public:
@@ -21,15 +18,10 @@ public:
   string un, uno, mydata;
   string uname, passw;
 
-  /**
-   * Simulates a walking trip between two cities.
-   * @returns None
-   */
-
   void walk()
   {
     float time, avg_velocity = 20, total_distance; // distance will be assigned from filing
-    string place1, place2, place3, place4, distance1, distance2;
+    string place1, place2, distance1, distance2;
     int op1, op2, op;
     float s1, s2;
     cout << "YOUR LOCATION: " << endl;
@@ -75,11 +67,6 @@ public:
     exit(0);
   }
 
-  /**
-   * Simulates a car journey by calculating the time it takes to travel from a starting location to a destination.
-   *
-   * @returns None
-   */
   void car()
   {
     float time, avg_velocity = 100, distance; // distance will be assigned from filing
@@ -130,15 +117,10 @@ public:
     exit(0);
   }
 
-  /**
-   * Simulates a cycle trip between two cities.
-   * @returns None
-   */
-
   void cycle()
   {
     float time, avg_velocity = 40, total_distance; // distance will be assigned from filing
-    string place1, place2, place3, place4, distance1, distance2;
+    string place1, place2, distance1, distance2;
     int op1, op2, op;
     float s1, s2;
     cout << "YOUR LOCATION: " << endl;
@@ -185,11 +167,6 @@ public:
     exit(0);
   }
 
-  /**
-   * Allows the user to sign in or sign up.
-   *
-   * @returns None
-   */
   void user()
   {
     string username, password, user, pass;
@@ -284,10 +261,8 @@ public:
 
   /**
    * Computes the shortest path between two nodes in a graph using Depth First Search.
-   *
    * @param s The starting node.
    * @param d The destination node.
-   *
    * @returns The shortest distance between the starting and destination nodes using dfs.
    */
   int shortestPath(int s, int d)
@@ -310,26 +285,24 @@ public:
     f1.close();
 
     vector<int> path;
-
     string place, place1, place2, pth;
     int op, op1, op2, w1, w2;
     path.push_back(s);
-    dfs(vis2, s, d, path);
 
+    // Performing Depth-First Search (DFS) to find paths between nodes
+    dfs(vis2, s, d, path);
     cout << endl;
 
     ifstream f2;
 
+    // bubble sort - Sorting the paths based on distance to the destination
     for (int i = 0; i < vect1.size() - 1; i++)
     {
-
       for (int j = 0; j < vect1.size() - i - 1; j++)
       {
-
         if (vect1[j][vect1[j].size() - 1] >
             vect1[j + 1][vect1[j + 1].size() - 1])
         {
-
           swap(vect1[j], vect1[j + 1]);
         }
       }
@@ -341,20 +314,16 @@ public:
     for (int i = 0; i < vect1[0].size() - 1; i++)
     {
       f2.open("locations.txt");
-
       while (f2 >> op >> place)
       {
-
         if (op == vect1[0][i])
         {
-
           place1 = place;
-          pth = pth + place + ",";
+          pth = pth + place + " -> ";
         }
       }
       f2.close();
       cout << place1 << " ";
-
       n = i;
     }
     cout << endl
@@ -367,29 +336,26 @@ public:
   i:
     cout << "\nARE YOU FACING ANY BARRIERS IN THIS WAY? 'YES OR NO'" << endl;
     cin >> ch;
+    // Removing the shortest path and recalculating the next shortest path
     if (ch == "yes" || ch == "Yes" || ch == "YES")
     {
       for (int i = 0; i < vect1.size() - 1; i++)
       {
-
         for (int j = 0; j < vect1.size() - i - 1; j++)
         {
           if (vect1[j][vect1[j].size() - 1] <
               vect1[j + 1][vect1[j + 1].size() - 1])
           {
-
             swap(vect1[j], vect1[j + 1]);
           }
         }
       }
 
-      vect1.pop_back();
+      vect1.pop_back(); // removes the shortest path
       for (int i = 0; i < vect1.size() - 1; i++)
       {
-
         for (int j = 0; j < vect1.size() - i - 1; j++)
         {
-
           if (vect1[j][vect1[j].size() - 1] >
               vect1[j + 1][vect1[j + 1].size() - 1])
           {
@@ -397,7 +363,7 @@ public:
           }
         }
       }
-
+      // Outputting the recalculated shortest path
       cout << "\nDISTANCE TO DESTINATION: " << endl;
       n = 0;
       pth = "";
@@ -410,9 +376,8 @@ public:
 
           if (op == vect1[0][i])
           {
-
             place1 = place;
-            pth = pth + place + ",";
+            pth = pth + place + " -> ";
           }
         }
         f2.close();
@@ -428,7 +393,6 @@ public:
       ofstream file("out.txt", ios::binary | ios::trunc);
       file << pth;
       file.close();
-      system("C:\\Python311\\python.exe graph.py out.txt");
       goto i;
       return sd;
     }
@@ -437,7 +401,6 @@ public:
       ofstream file("out.txt", ios::binary | ios::trunc);
       file << pth;
       file.close();
-      system("C:\\Python311\\python.exe graph.py out.txt");
       return sd;
       exit(0);
     }
@@ -445,37 +408,6 @@ public:
     {
       cout << "Invalid choice " << endl;
       goto i;
-    }
-  }
-
-  void display()
-  {
-    string place, place1, place2;
-    int op, op1, op2, w1, w2, n = 0;
-
-    ifstream f2;
-    for (int i = 0; i < vect1.size(); i++)
-    {
-
-      for (int j = 0; j < vect1[i].size() - 1; j++)
-      {
-        f2.open("locations.txt");
-
-        while (f2 >> op >> place)
-        {
-
-          if (op == vect1[i][j])
-          {
-
-            place1 = place;
-          }
-        }
-        f2.close();
-        cout << place1 << " ";
-        n = j;
-      }
-      cout << vect1[i][n + 1];
-      cout << endl;
     }
   }
 };

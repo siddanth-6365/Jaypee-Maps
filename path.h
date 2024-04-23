@@ -19,38 +19,29 @@ ifstream f1;
 
 /**
  * Performs a depth-first search on a graph to find a path between two nodes and computes the weight of the path.
- *
  * @param vis2 An array to keep track of visited nodes.
  * @param s The starting node.
  * @param d The destination node.
  * @param path A vector to keep track of the current path.
- *
- * @returns None
  */
 
 void
 dfs (int vis2[], int s, int d, vector < int >path)
 {
-
   vis2[s] = 1;
-
 
   if (s == d)
     {
-
       for (int i = 0; i < path.size (); i++)
 	{
-
 	  path2.push_back (path[i]);
 	}
       ans2++;
       vector < int >vect2;
-
       for (int j = 0; j < path.size (); j++)
 	{
 	  vect2.push_back (path[j]);
 	}
-
       for (int j = 0; j < path.size (); j++)
 	{
 	  int x, y, wt;
