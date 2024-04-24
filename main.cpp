@@ -10,6 +10,33 @@ using namespace std;
 
 int shortestPath(int s, int d);
 
+int partition(vector<vector<int> > &vect1, int low, int high)
+{
+  int pivot = vect1[high][vect1[high].size() - 1];
+  int i = (low - 1);
+
+  for (int j = low; j <= high - 1; j++)
+  {
+    if (vect1[j][vect1[j].size() - 1] < pivot)
+    {
+      i++;
+      swap(vect1[i], vect1[j]);
+    }
+  }
+  swap(vect1[i + 1], vect1[high]);
+  return (i + 1);
+}
+
+void quickSort(vector<vector<int> > &vect1, int low, int high)
+{
+  if (low < high)
+  {
+    int pi = partition(vect1, low, high);
+    quickSort(vect1, low, pi - 1);
+    quickSort(vect1, pi + 1, high);
+  }
+}
+
 /* A class that represents navigation functionality for travel. */
 class navigation
 {
@@ -295,18 +322,21 @@ public:
 
     ifstream f2;
 
+    // quickSort - Sorting the paths based on distance to the destination
+    quickSort(vect1, 0, vect1.size() - 1);
+
     // bubble sort - Sorting the paths based on distance to the destination
-    for (int i = 0; i < vect1.size() - 1; i++)
-    {
-      for (int j = 0; j < vect1.size() - i - 1; j++)
-      {
-        if (vect1[j][vect1[j].size() - 1] >
-            vect1[j + 1][vect1[j + 1].size() - 1])
-        {
-          swap(vect1[j], vect1[j + 1]);
-        }
-      }
-    }
+    // for (int i = 0; i < vect1.size() - 1; i++)
+    // {
+    //   for (int j = 0; j < vect1.size() - i - 1; j++)
+    //   {
+    //     if (vect1[j][vect1[j].size() - 1] >
+    //         vect1[j + 1][vect1[j + 1].size() - 1])
+    //     {
+    //       swap(vect1[j], vect1[j + 1]);
+    //     }
+    //   }
+    // }
 
     cout << "DISTANCE TO DESTINATION: " << endl;
     n = 0;
@@ -323,14 +353,17 @@ public:
         }
       }
       f2.close();
-      cout << place1 << " ";
+      cout << place1;
+      if (i != vect1[0].size() - 2)
+      {
+        cout << " -> ";
+      }
       n = i;
     }
-    cout << endl
-         << endl
-         << pth;
+    // cout << endl<< endl<< pth;
 
-    cout << vect1[0][n + 1];
+    cout << endl
+         << "Distance :" << vect1[0][n + 1];
     sd = vect1[0][n + 1];
     cout << endl;
   i:
@@ -363,6 +396,7 @@ public:
           }
         }
       }
+
       // Outputting the recalculated shortest path
       cout << "\nDISTANCE TO DESTINATION: " << endl;
       n = 0;
@@ -373,7 +407,6 @@ public:
 
         while (f2 >> op >> place)
         {
-
           if (op == vect1[0][i])
           {
             place1 = place;
@@ -381,12 +414,16 @@ public:
           }
         }
         f2.close();
-        cout << place1 << " ";
-
+        cout << place1;
+        if (i != vect1[0].size() - 2)
+        {
+          cout << " -> ";
+        }
         n = i;
       }
 
-      cout << vect1[0][n + 1];
+      cout << endl
+           << "Distance :" << vect1[0][n + 1];
       sd = vect1[0][n + 1];
       cout << endl;
       ch.clear();
